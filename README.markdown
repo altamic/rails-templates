@@ -7,3 +7,4 @@ Current library
 ---------------
 
 * bort, entp by Jeremy McAnally
+* authlogic by Michelangelo Altamore
