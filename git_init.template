@@ -1,0 +1,33 @@
+# git_init.rb
+
+# task 'git:rails:new_app', :needs => [ 'rails:rm_tmp_dirs', 'git:hold_empty_dirs' ]
+ 
+# rails:rm_tmp_dirs
+["./tmp/pids", "./tmp/sessions", "./tmp/sockets", "./tmp/cache"].each do |f|
+  run("rmdir ./#{f}")
+end
+ 
+# git:hold_empty_dirs
+run("find . \\( -type d -empty \\) -and \\( -not -regex ./\\.git.* \\) -exec touch {}/.gitignore \\;")
+ 
+# git:rails:new_app
+git :init
+ 
+initializer '.gitignore', 
+%q{.DS_Store
+config/database.yml
+log/\\*.log
+log/\\*.pid
+db/\\*.db
+db/\\*.sqlite3
+db/schema.rb
+tmp/\\*\\*/\\*
+doc/api
+doc/app
+}
+ 
+run "cp config/database.yml config/database.yml.sample"
+ 
+git :add => "."
+ 
+git :commit => "-a -m 'Initial project commit'"
